@@ -5,6 +5,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
+const passport = require("passport");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 // mongoDB setup
 main().catch((err) => console.log(err));
@@ -25,6 +28,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+require("./config/passport");
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_CONNECT,
+    }),
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", indexRouter);
 

@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 exports.register_post = async (req, res, next) => {
   try {
@@ -27,18 +28,7 @@ exports.register_post = async (req, res, next) => {
   }
 };
 
-exports.login_post = async (req, res, next) => {
-  try {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) {
-      res.send("User does not exist");
-    }
-    const match = await bcrypt.compare(req.body.password, user.password);
-    if (!match) {
-      res.send("Incorrect password");
-    }
-    res.send("Log-in details accepted");
-  } catch (err) {
-    return next(err);
-  }
-};
+exports.login_post = passport.authenticate("local", {
+  successRedirect: "/success",
+  failureRedirect: "/login",
+});
