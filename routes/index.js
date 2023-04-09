@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const passport = require("passport");
 const User = require("../models/user");
+const Message = require("../models/message");
 const bcrypt = require("bcryptjs");
 
 const isAuth = (req, res, next) => {
@@ -61,8 +62,30 @@ router.post(
   }
 );
 
-router.get("/dashboard", isAuth, (req, res, next) => {
-  res.send(req.user);
+router.get("/dashboard", isAuth, async (req, res, next) => {
+  const messages = await Message.find();
+  console.log(messages);
+  res.render("dashboard");
+});
+
+router.get("/new-message", (req, res, next) => {
+  res.render("new-message", { user: req.user.id });
+});
+
+router.post("/new-message", async (req, res, next) => {
+  try {
+    const { title, author, body } = req.body;
+    const message = new Message({
+      title,
+      author,
+      body,
+    });
+
+    await message.save();
+    res.redirect("/dashboard");
+  } catch (err) {
+    return next(err);
+  }
 });
 
 router.get("/logout", (req, res, next) => {
