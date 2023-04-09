@@ -12,7 +12,7 @@ const MongoStore = require("connect-mongo");
 // mongoDB setup
 main().catch((err) => console.log(err));
 async function main() {
-  await mongoose.connect(process.env.MONGODB_CONNECT);
+  await mongoose.connect(process.env.MONGODB_LOCAL);
 }
 
 var indexRouter = require("./routes/index");
@@ -37,7 +37,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_CONNECT,
+      mongoUrl: process.env.MONGODB_LOCAL,
     }),
   })
 );
