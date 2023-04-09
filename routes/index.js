@@ -4,6 +4,14 @@ const passport = require("passport");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
+const isAuth = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  req.session.messages = ["Not authorized"];
+  return res.redirect("/login");
+};
+
 router.get("/", (req, res, next) => {
   res.render("index", { message: "" });
 });
@@ -47,8 +55,15 @@ router.post(
   passport.authenticate("local", {
     failureMessage: "Invalid login details",
     failureRedirect: "/login",
-    successRedirect: "/dashboard",
-  })
+  }),
+  (req, res, next) => {
+    res.redirect("/dashboard");
+  }
 );
+
+router.get("/dashboard", isAuth, (req, res, next) => {
+  console.log("passed auth");
+  res.send(req.user);
+});
 
 module.exports = router;
