@@ -9,5 +9,14 @@
     <h1>MembersOnly</h1>
     <p>Dashboard</p>
     <a href="/new-message">Create New Message</a>
+    <% for (const message of messages) { %>
+      <div class="message">
+        <p><%= message.title %></p>
+        <p><%= message.body %></p>
+        <p><%= message.author.username %></p>
+        <p><%= message.time %></p>
+      </div>
+      <hr>
+    <% } %>
   </body>
 </html>

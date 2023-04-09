@@ -63,9 +63,9 @@ router.post(
 );
 
 router.get("/dashboard", isAuth, async (req, res, next) => {
-  const messages = await Message.find();
+  const messages = await Message.find().populate("author").sort({ time: -1 });
   console.log(messages);
-  res.render("dashboard");
+  res.render("dashboard", { messages });
 });
 
 router.get("/new-message", (req, res, next) => {
