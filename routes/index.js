@@ -62,8 +62,15 @@ router.post(
 );
 
 router.get("/dashboard", isAuth, (req, res, next) => {
-  console.log("passed auth");
   res.send(req.user);
+});
+
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    return next(err);
+  });
+  req.session.messages = ["Successfully logged out"];
+  res.redirect("/login");
 });
 
 module.exports = router;
