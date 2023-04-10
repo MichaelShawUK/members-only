@@ -5,6 +5,13 @@ const User = require("../models/user");
 const Message = require("../models/message");
 const bcrypt = require("bcryptjs");
 
+const redirectLoggedIn = (req, res, next) => {
+  if (req?.session?.passport?.user) {
+    return res.redirect("/dashboard");
+  }
+  next();
+};
+
 const isAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -13,7 +20,7 @@ const isAuth = (req, res, next) => {
   return res.redirect("/login");
 };
 
-router.get("/", (req, res, next) => {
+router.get("/", redirectLoggedIn, (req, res, next) => {
   res.render("index", { message: "" });
 });
 
@@ -42,7 +49,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/login", (req, res, next) => {
+router.get("/login", redirectLoggedIn, (req, res, next) => {
   let message = "";
   if (req?.session?.messages?.[0]) {
     message = req.session.messages[0];
