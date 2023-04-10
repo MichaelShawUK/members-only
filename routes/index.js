@@ -70,8 +70,10 @@ router.post(
 );
 
 router.get("/dashboard", isAuth, async (req, res, next) => {
+  const isMember = !req.user.isMember;
+
   const messages = await Message.find().populate("author").sort({ time: -1 });
-  res.render("dashboard", { messages });
+  res.render("dashboard", { messages, isMember });
 });
 
 router.get("/new-message", (req, res, next) => {

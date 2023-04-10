@@ -13,8 +13,10 @@
       <div class="message">
         <p><%= message.title %></p>
         <p><%= message.body %></p>
-        <p><%= message.author.username %></p>
-        <p><%= message.timestamp %></p>
+        <% if (isMember) { %>
+          <p><%= message.author.username %></p>
+          <p><%= message.timestamp %></p>
+        <% } %>
       </div>
       <hr>
     <% } %>
