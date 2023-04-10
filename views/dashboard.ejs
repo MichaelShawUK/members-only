@@ -12,8 +12,12 @@
     <% if (!isMember) { %>
     <a href="/membership">Become Member</a>
     <% } %>
+    <% if (!isAdmin) { %>
+      <a href="/admin">Admin Log In</a>
+      <% } %>
     <% for (const message of messages) { %>
       <div class="message">
+        <p><%= message.id %></p>
         <p><%= message.title %></p>
         <p><%= message.body %></p>
         <% if (isMember) { %>

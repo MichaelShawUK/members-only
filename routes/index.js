@@ -70,10 +70,12 @@ router.post(
 );
 
 router.get("/dashboard", isAuth, async (req, res, next) => {
+  console.log(req.user);
   const isMember = req.user.isMember;
+  const isAdmin = req.user.isAdmin;
 
   const messages = await Message.find().populate("author").sort({ time: -1 });
-  res.render("dashboard", { messages, isMember });
+  res.render("dashboard", { messages, isMember, isAdmin });
 });
 
 router.get("/new-message", (req, res, next) => {
@@ -101,6 +103,30 @@ router.get("/membership", async (req, res, next) => {
   user.isMember = true;
   await user.save();
   res.redirect("/dashboard");
+});
+
+router.get("/admin", (req, res, next) => {
+  let message = "";
+  if (req?.session?.messages?.[0]) {
+    message = req.session.messages[0];
+    delete req.session.messages;
+  }
+  res.render("admin", { message });
+});
+
+router.post("/admin", async (req, res, next) => {
+  if (req.body.password !== "admin") {
+    req.session.messages = ["Incorrect password"];
+    return res.redirect("/admin");
+  }
+  try {
+    const user = await User.findById(req.session.passport.user);
+    user.isAdmin = true;
+    await user.save();
+    res.redirect("/dashboard");
+  } catch (err) {
+    return next(err);
+  }
 });
 
 router.get("/logout", (req, res, next) => {
