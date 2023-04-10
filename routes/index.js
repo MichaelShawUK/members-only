@@ -78,6 +78,15 @@ router.get("/dashboard", isAuth, async (req, res, next) => {
   res.render("dashboard", { messages, isMember, isAdmin });
 });
 
+router.post("/dashboard", async (req, res, next) => {
+  try {
+    await Message.deleteOne({ _id: req.body.messageId });
+    res.redirect("/dashboard");
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.get("/new-message", (req, res, next) => {
   res.render("new-message", { user: req.user.id });
 });
@@ -121,6 +130,7 @@ router.post("/admin", async (req, res, next) => {
   }
   try {
     const user = await User.findById(req.session.passport.user);
+    user.isMember = true;
     user.isAdmin = true;
     await user.save();
     res.redirect("/dashboard");
@@ -129,7 +139,14 @@ router.post("/admin", async (req, res, next) => {
   }
 });
 
-router.get("/logout", (req, res, next) => {
+router.get("/logout", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.session.passport.user);
+    user.isAdmin = false;
+    await user.save();
+  } catch (err) {
+    return next(err);
+  }
   req.logout((err) => {
     if (err) {
       return next(err);

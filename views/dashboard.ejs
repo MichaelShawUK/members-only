@@ -13,7 +13,7 @@
     <a href="/membership">Become Member</a>
     <% } %>
     <% if (!isAdmin) { %>
-      <a href="/admin">Admin Log In</a>
+      <a href="/admin">Admin Privileges</a>
       <% } %>
     <% for (const message of messages) { %>
       <div class="message">
@@ -25,6 +25,12 @@
           <p><%= message.timestamp %></p>
         <% } %>
       </div>
+      <% if (isAdmin) { %>
+      <form action="" method="post">
+        <input name="messageId" type="text" value=<%= message.id %> hidden />
+        <button type="submit">Delete Message</button>
+      </form>
+      <% } %>
       <hr>
     <% } %>
   </body>
