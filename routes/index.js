@@ -36,7 +36,7 @@ router.post("/", async (req, res, next) => {
     });
 
     await user.save();
-    res.redirect("/dashboard");
+    res.redirect("/login");
   } catch (err) {
     return next(err);
   }
@@ -44,9 +44,9 @@ router.post("/", async (req, res, next) => {
 
 router.get("/login", (req, res, next) => {
   let message = "";
-  if (req.session.messages) {
+  if (req?.session?.messages?.[0]) {
     message = req.session.messages[0];
-    req.session.messages = [];
+    delete req.session.messages;
   }
   res.render("login", { message });
 });
@@ -64,7 +64,6 @@ router.post(
 
 router.get("/dashboard", isAuth, async (req, res, next) => {
   const messages = await Message.find().populate("author").sort({ time: -1 });
-  console.log(messages);
   res.render("dashboard", { messages });
 });
 
@@ -90,10 +89,12 @@ router.post("/new-message", async (req, res, next) => {
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
-    return next(err);
+    if (err) {
+      return next(err);
+    }
+    req.session.messages = ["Successfully logged out"];
+    res.redirect("/login");
   });
-  req.session.messages = ["Successfully logged out"];
-  res.redirect("/login");
 });
 
 module.exports = router;
