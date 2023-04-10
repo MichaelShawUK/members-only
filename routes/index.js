@@ -70,7 +70,7 @@ router.post(
 );
 
 router.get("/dashboard", isAuth, async (req, res, next) => {
-  const isMember = !req.user.isMember;
+  const isMember = req.user.isMember;
 
   const messages = await Message.find().populate("author").sort({ time: -1 });
   res.render("dashboard", { messages, isMember });
@@ -94,6 +94,13 @@ router.post("/new-message", async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
+});
+
+router.get("/membership", async (req, res, next) => {
+  const user = await User.findById(req.session.passport.user);
+  user.isMember = true;
+  await user.save();
+  res.redirect("/dashboard");
 });
 
 router.get("/logout", (req, res, next) => {

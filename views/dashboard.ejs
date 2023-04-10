@@ -9,6 +9,9 @@
     <h1>MembersOnly</h1>
     <p>Dashboard</p>
     <a href="/new-message">Create New Message</a>
+    <% if (!isMember) { %>
+    <a href="/membership">Become Member</a>
+    <% } %>
     <% for (const message of messages) { %>
       <div class="message">
         <p><%= message.title %></p>

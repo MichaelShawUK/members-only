@@ -44,13 +44,6 @@ app.use(
 
 app.use(passport.session());
 
-app.use((req, res, next) => {
-  console.log("runs on every request");
-  console.log(req.session.id);
-  console.log(req.session);
-  next();
-});
-
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
