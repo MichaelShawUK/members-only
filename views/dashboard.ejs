@@ -15,8 +15,9 @@
     <% if (!isAdmin) { %>
       <a href="/admin">Admin Privileges</a>
       <% } %>
-    <% for (const message of messages) { %>
-      <div class="message">
+
+    <% messages.map((message, index) => { %>
+      <div class="message <%= alignMessage[index] %>">
         <p><%= message.title %></p>
         <p><%= message.body %></p>
         <% if (isMember) { %>
@@ -31,6 +32,23 @@
       </form>
       <% } %>
       <hr>
+    <% }) %>
+    <% for (const message of messages) { %>
+      <!-- <div class="message">
+        <p><%= message.title %></p>
+        <p><%= message.body %></p>
+        <% if (isMember) { %>
+          <p><%= message.author.username %></p>
+          <p><%= message.timestamp %></p>
+        <% } %>
+      </div>
+      <% if (isAdmin) { %>
+      <form action="" method="post">
+        <input name="messageId" type="text" value=<%= message.id %> hidden />
+        <button type="submit">Delete Message</button>
+      </form>
+      <% } %>
+      <hr> -->
     <% } %>
   </body>
 </html>

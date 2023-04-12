@@ -5,6 +5,7 @@ const User = require("../models/user");
 const Message = require("../models/message");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const alignMessages = require("../utils/alignMessages");
 
 const redirectLoggedIn = (req, res, next) => {
   if (req?.session?.passport?.user) {
@@ -77,7 +78,8 @@ router.get("/dashboard", isAuth, async (req, res, next) => {
   const isAdmin = req.user.isAdmin;
 
   const messages = await Message.find().populate("author").sort({ time: -1 });
-  res.render("dashboard", { messages, isMember, isAdmin });
+  const alignMessage = alignMessages(messages);
+  res.render("dashboard", { messages, isMember, isAdmin, alignMessage });
 });
 
 router.post("/dashboard", async (req, res, next) => {
