@@ -4,6 +4,7 @@ const passport = require("passport");
 const User = require("../models/user");
 const Message = require("../models/message");
 const bcrypt = require("bcryptjs");
+const { body, validationResult } = require("express-validator");
 
 const redirectLoggedIn = (req, res, next) => {
   if (req?.session?.passport?.user) {
@@ -43,6 +44,7 @@ router.post("/", async (req, res, next) => {
     });
 
     await user.save();
+    req.session.messages = ["Successfully registered"];
     res.redirect("/login");
   } catch (err) {
     return next(err);
@@ -88,24 +90,43 @@ router.post("/dashboard", async (req, res, next) => {
 });
 
 router.get("/new-message", (req, res, next) => {
-  res.render("new-message", { user: req.user.id });
+  res.render("new-message", { user: req.user.id, errors: [] });
 });
 
-router.post("/new-message", async (req, res, next) => {
-  try {
-    const { title, author, body } = req.body;
-    const message = new Message({
-      title,
-      author,
-      body,
-    });
+router.post(
+  "/new-message",
+  body("title", "Title is too short").trim().isLength({ min: 2 }),
+  body("body", "Message is required").trim().notEmpty(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = [];
+      errors.array().map((error) => {
+        messages.push(error.msg);
+      });
+      return res.render("new-message", {
+        user: req.user.id,
+        errors: messages,
+      });
+    }
+    next();
+  },
+  async (req, res, next) => {
+    try {
+      const { title, author, body } = req.body;
+      const message = new Message({
+        title,
+        author,
+        body,
+      });
 
-    await message.save();
-    res.redirect("/dashboard");
-  } catch (err) {
-    return next(err);
+      await message.save();
+      res.redirect("/dashboard");
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 router.get("/membership", async (req, res, next) => {
   const user = await User.findById(req.session.passport.user);

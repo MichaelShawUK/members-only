@@ -16,5 +16,10 @@
       <input name="body" id="body" type="text" />
       <button type="submit">Add Message</button>
     </form>
+    <% if ( errors[0] ) { %>
+      <% for (const error of errors) { %>
+        <p class="invalid"><%= error %></p>
+        <% } %>
+    <% } %>
   </body>
 </html>
