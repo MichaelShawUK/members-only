@@ -5,15 +5,14 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-  <body>
-    <h1>MembersOnly</h1>
-    <p>New Message</p>
+  <body class="new-message">
+    <h1><a href="/" class="home">MembersOnly</a></h1>
     <form action="" method="post">
       <label for="title">Title</label>
-      <input name="title" id="title" type="text" />
+      <input name="title" id="title" type="text" autofocus />
       <input name="author" value=<%= user %> hidden />
       <label for="body">Message</label>
-      <input name="body" id="body" type="text" />
+      <textarea rows=10 name="body" id="body" type="text" ></textarea>
       <button type="submit">Add Message</button>
     </form>
     <% if ( errors[0] ) { %>

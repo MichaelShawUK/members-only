@@ -73,13 +73,18 @@ router.post(
 );
 
 router.get("/dashboard", isAuth, async (req, res, next) => {
-  console.log(req.user);
   const isMember = req.user.isMember;
   const isAdmin = req.user.isAdmin;
 
   const messages = await Message.find().populate("author").sort({ time: -1 });
   const alignMessage = alignMessages(messages);
-  res.render("dashboard", { messages, isMember, isAdmin, alignMessage });
+  res.render("dashboard", {
+    messages,
+    isMember,
+    isAdmin,
+    alignMessage,
+    user: req.user,
+  });
 });
 
 router.post("/dashboard", async (req, res, next) => {

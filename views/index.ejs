@@ -5,12 +5,12 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-  <body>
-    <h1>MembersOnly</h1>
+  <body class="index">
+    <h1><a href="/" class="home">MembersOnly</a></h1>
     <p>Create an account to enter</p>
     <form action="" method="POST">
       <label for="username">Username</label>
-      <input id="username" name="username" type="text">
+      <input id="username" name="username" type="text" autofocus>
       <label for="password">Password</label>
       <input id="password" name="password" type="password">
       <label for="confirm">Confirm Password</label>
@@ -18,7 +18,7 @@
       <button type="submit">Register</button>
     </form>
     <p class="invalid"><%= message %></p>
-    <p>Already registered?</p>
-    <a href="/login">Log-In</a>
+    <p>Already registered? <a href="/login">Log-In</a></p>
+    
   </body>
 </html>

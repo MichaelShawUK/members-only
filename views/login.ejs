@@ -5,15 +5,16 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-  <body>
-    <h1>MembersOnly</h1>
+  <body class="login">
+    <h1><a href="/" class="home">MembersOnly</a></h1>
     <form action="" method="POST">
       <label for="username">Username</label>
-      <input id="username" name="username" type="text">
+      <input id="username" name="username" type="text" autofocus>
       <label for="password">Password</label>
       <input id="password" name="password" type="password">
       <button type="submit">Log In</button>
     </form>
     <p class="invalid"><%= message %></p>
+    <a href="/">Register</a>
   </body>
 </html>

@@ -6,15 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <h1>MembersOnly</h1>
-    <p>Dashboard</p>
-    <a href="/new-message">Create New Message</a>
-    <% if (!isMember) { %>
-    <a href="/membership">Become Member</a>
-    <% } %>
-    <% if (!isAdmin) { %>
-      <a href="/admin">Admin Privileges</a>
+    <header class="header">
+      <h1><a href="/" class="home">MembersOnly</a></h1>
+      <a href="/new-message" class="header-link">New Message</a>
+      <% if (!user.isMember) { %>
+      <a href="/membership" class="header-link">Become Member</a>
       <% } %>
+      <% if (!user.isAdmin) { %>
+        <a href="/admin" class="header-link">Admin Privileges</a>
+        <% } %>
+    </header>
+
+    <div class="user-info">
+      <p>Logged in as <span class="user-colour" style="background-color: <%= user.colour %>"></span><%= user.username %> <a href="/logout">Log Out</a></p>
+      <% if (user.isMember) { %>
+        <span>&#x2713; Member</span>
+        <% } %>
+        <% if (user.isAdmin) { %>
+          <span>&#x2713; Admin</span>
+          <% } %>
+    </div>
 
     <div class="messages-container">
       <div class="messages">
@@ -23,7 +34,7 @@
             <p><b><%= message.title %></b></p>
             <p><%= message.body %></p>
             <% if (isMember) { %>
-              <p><b><%= message.author.username %></b></p>
+              <p><span class="user-colour" style="background-color: <%= message.author.colour %>"></span><b><%= message.author.username %></b></p>
               <p><%= message.timestamp %></p>
             <% } %>
           <% if (isAdmin) { %>
