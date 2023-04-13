@@ -18,7 +18,7 @@
 
     <% messages.map((message, index) => { %>
       <div class="message <%= alignMessage[index] %>">
-        <p><%= message.title %></p>
+        <p><b><%= message.title %></b></p>
         <p><%= message.body %></p>
         <% if (isMember) { %>
           <p><%= message.author.username %></p>
@@ -26,12 +26,11 @@
         <% } %>
       </div>
       <% if (isAdmin) { %>
-      <form action="" method="post">
+      <form action="" method="post" class="delete-message">
         <input name="messageId" type="text" value=<%= message.id %> hidden />
         <button type="submit">Delete Message</button>
       </form>
       <% } %>
-      <hr>
     <% }) %>
     <% for (const message of messages) { %>
       <!-- <div class="message">

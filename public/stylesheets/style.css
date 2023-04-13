@@ -10,3 +10,48 @@ a {
 .invalid {
   color: red;
 }
+
+.right {
+  text-align: right;
+}
+
+.message {
+  color: white;
+  background-color: #2174fc;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+
+  box-shadow: 0px -2px 10px grey;
+  margin-bottom: 30px;
+}
+
+.message.left::after {
+  background-color: #2174fc;
+  content: "";
+  bottom: -15px;
+  height: 15px;
+  width: 25px;
+  position: absolute;
+  border-bottom-right-radius: 100%;
+}
+
+.message.right::after {
+  background-color: #bcd4de;
+  content: "";
+  bottom: -15px;
+  height: 15px;
+  width: 25px;
+  right: 10px;
+  position: absolute;
+  border-bottom-left-radius: 100%;
+}
+
+.message.right {
+  color: black;
+  background-color: #bcd4de;
+}
+
+.delete-message {
+  position: absolute;
+}
