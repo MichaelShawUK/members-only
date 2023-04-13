@@ -16,38 +16,25 @@
       <a href="/admin">Admin Privileges</a>
       <% } %>
 
-    <% messages.map((message, index) => { %>
-      <div class="message <%= alignMessage[index] %>">
-        <p><b><%= message.title %></b></p>
-        <p><%= message.body %></p>
-        <% if (isMember) { %>
-          <p><%= message.author.username %></p>
-          <p><%= message.timestamp %></p>
-        <% } %>
-      <% if (isAdmin) { %>
-        <form action="" method="post" class="delete-message">
-          <input name="messageId" type="text" value=<%= message.id %> hidden />
-          <button type="submit">DELETE</button>
-        </form>
-      <% } %>
+    <div class="messages-container">
+      <div class="messages">
+        <% messages.map((message, index) => { %>
+          <div class="message <%= alignMessage[index] %>">
+            <p><b><%= message.title %></b></p>
+            <p><%= message.body %></p>
+            <% if (isMember) { %>
+              <p><b><%= message.author.username %></b></p>
+              <p><%= message.timestamp %></p>
+            <% } %>
+          <% if (isAdmin) { %>
+            <form action="" method="post" class="delete-message">
+              <input name="messageId" type="text" value=<%= message.id %> hidden />
+              <button type="submit">DELETE</button>
+            </form>
+          <% } %>
+          </div>
+          <% }) %>
       </div>
-      <% }) %>
-    <% for (const message of messages) { %>
-      <!-- <div class="message">
-        <p><%= message.title %></p>
-        <p><%= message.body %></p>
-        <% if (isMember) { %>
-          <p><%= message.author.username %></p>
-          <p><%= message.timestamp %></p>
-        <% } %>
-      </div>
-      <% if (isAdmin) { %>
-      <form action="" method="post">
-        <input name="messageId" type="text" value=<%= message.id %> hidden />
-        <button type="submit">Delete Message</button>
-      </form>
-      <% } %>
-      <hr> -->
-    <% } %>
+    </div>
   </body>
 </html>
