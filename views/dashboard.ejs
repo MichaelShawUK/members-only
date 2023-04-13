@@ -24,14 +24,14 @@
           <p><%= message.author.username %></p>
           <p><%= message.timestamp %></p>
         <% } %>
-      </div>
       <% if (isAdmin) { %>
-      <form action="" method="post" class="delete-message">
-        <input name="messageId" type="text" value=<%= message.id %> hidden />
-        <button type="submit">Delete Message</button>
-      </form>
+        <form action="" method="post" class="delete-message">
+          <input name="messageId" type="text" value=<%= message.id %> hidden />
+          <button type="submit">DELETE</button>
+        </form>
       <% } %>
-    <% }) %>
+      </div>
+      <% }) %>
     <% for (const message of messages) { %>
       <!-- <div class="message">
         <p><%= message.title %></p>

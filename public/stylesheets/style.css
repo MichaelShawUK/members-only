@@ -54,4 +54,23 @@ a {
 
 .delete-message {
   position: absolute;
+  bottom: 10px;
+}
+
+.delete-message button {
+  border: none;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.delete-message button:hover {
+  background-color: white;
+  color: red;
+}
+
+.message.left .delete-message {
+  right: 10px;
 }
