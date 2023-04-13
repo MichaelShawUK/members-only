@@ -125,6 +125,7 @@ router.post(
         title,
         author,
         body,
+        time: new Date(),
       });
 
       await message.save();

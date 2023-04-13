@@ -8,6 +8,8 @@ const MessageSchema = new Schema({
   time: { type: Date, default: new Date() },
 });
 
+console.log(".......new message created");
+
 MessageSchema.virtual("timestamp").get(function () {
   const options = {
     hour: "numeric",
